@@ -116,7 +116,7 @@
               <p>${element.email}</p>
               <p>${element._id}</p>
               <button class="btn btn-primary" type="submit" onclick="myFunc('${element._id}')">Delete</button>
-
+              <button class="btn btn-primary" type="button" onclick="editFunc('${element._id}', '${element.name}', '${element.email}')">Edit</button>
             </div>
           `;
         });
@@ -140,3 +140,29 @@ function myFunc(id) {
         console.log(err);
       });
   }
+
+function editFunc(id,name,email)
+{
+  const newName = prompt("Enter new name");
+  const newEmail = prompt("Enter new email");
+
+  config={
+    method:'put',
+    url:`https://crudcrud.com/api/2402f09ea0b4448aa9a621f90c3164b7/newdata/${id}`,
+    data:{name:newName , email:newEmail}
+  }
+  axios(config)
+  .then((res)=>{
+    const x = document.getElementById(id);
+        if (x) {
+          x.innerHTML=`
+          <div id="${id}">
+          <p>${newName}</p>
+          <p>${newEmail}</p>
+          <p>${id}</p>
+          <button class="btn btn-primary" type="submit" onclick="myFunc('${id}')">Delete</button>
+          <button class="btn btn-primary" type="button" onclick="editFunc('${id}', '${name}', '${email}')">Edit</button>
+        </div>`
+        }
+  })
+}
